@@ -19,7 +19,10 @@ Plug 'https://github.com/ryanoasis/vim-devicons' " Developer Icons
 Plug 'https://github.com/tc50cal/vim-terminal' " Vim Terminal
 Plug 'https://github.com/terryma/vim-multiple-cursors' " CTRL + N for multiple cursors
 Plug 'https://github.com/preservim/tagbar' " Tagbar for code navigation
-Plug 'https://github.com/neoclide/coc.nvim'  " Auto Completion
+Plug 'https://github.com/neoclide/coc.nvim', {'branch': 'release'}  " Auto Completion
+Plug 'neomake/neomake'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
 set encoding=UTF-8
 
@@ -30,10 +33,13 @@ call plug#end()
 nnoremap <C-f> :NERDTreeFocus<CR>
 nnoremap <C-n> :NERDTree<CR>
 nnoremap <C-t> :NERDTreeToggle<CR>
+nnoremap <C-p> :Files<CR>
 
 nmap <F8> :TagbarToggle<CR>
+nmap <silent> gd <Plug>(coc-definition)
 
 let g:airline_powerline_fonts = 1
+let g:coc_global_extension= ['coc-tsserver','coc-json','coc-html','coc-css']
 
 if !exists('g:airline_symbols')
     let g:airline_symbols = {}
@@ -47,3 +53,9 @@ let g:airline_right_alt_sep = ''
 let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
+let g:neomake_open_list = 2
+
+" Full config: when writing or reading a buffer, and on changes in insert and
+" normal mode (after 500ms; no delay when writing).
+call neomake#configure#automake('nrwi', 500)
+call neomake#configure#automake('w')
